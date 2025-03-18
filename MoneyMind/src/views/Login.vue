@@ -40,10 +40,21 @@
           </div>
         </ion-list>
 
+        <!-- reCAPTCHA -->
+        <div class="recaptcha-container">
+          <vue-recaptcha 
+            sitekey="YOUR_SITE_KEY" 
+            @verify="onCaptchaVerified" 
+            @expired="onCaptchaExpired" 
+            ref="recaptchaRef"
+          ></vue-recaptcha>
+        </div>
+        
         <!-- Botón para Login o Registro -->
-        <ion-button v-if="!showOtpInput" expand="full" @click="isLogin ? login() : signUp()" class="form-btn">
+        <ion-button v-if="!showOtpInput" expand="full" @click="isLogin ? login() : signUp()" class="form-btn" :disabled="!isCaptchaVerified">
           {{ isLogin ? 'Sign In' : 'Sign Up' }}
         </ion-button>
+
 
         <!-- Botón para verificar OTP -->
         <ion-button v-if="showOtpInput" expand="full" @click="verifyOtp()" class="form-btn verify-btn">
@@ -54,6 +65,10 @@
           {{ isLogin ? `Don't have an account?` : `Already have an account?` }}
           <a href="#" @click.prevent="toggleForm" class="toggle-link">{{ isLogin ? 'Sign Up' : 'Sign In' }}</a>
         </p>
+
+
+        
+    
       </div>
     </ion-content>
   </ion-page>
