@@ -1,37 +1,17 @@
 <template>
     <ion-page>
         <ion-header>
-            <ion-toolbar>
-                <div class="fecha">
-                    <ion-datetime-button datetime="datetime"></ion-datetime-button>
-                    <ion-modal :keep-contents-mounted="true">
-                        <ion-datetime
-                            id="datetime"
-                            presentation="date"
-                            value="2023-11-02T01:22:00"
-                        >
-                        </ion-datetime>
-                    </ion-modal>
-                </div>
-            </ion-toolbar>
+            <div class="transaction-header">
+                <div class="text-content">
+            <h2>Statistic</h2>
+            <p>Tu saldo actual</p>
+            <h1>$125,000</h1>
+        </div>
+    </div>
         </ion-header>
 
         <ion-content>
-            <div class="container-contenido">
-                <ion-grid>
-                    <ion-row>
-                        <ion-col size="8">
-                            <p class="label">Gastos</p>
-                            <h2 class="balance">$125,000</h2>
-                        </ion-col>
-                        <ion-col size="4" class="text-align">
-                            <p class="resumen">Last month summary</p>
-                            <p class="porcentaje">+5.57%</p>
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
-            </div>
-            
+                      
             <!-- Aquí se muestra la gráfica -->
             <div class="estadistica">
                 <PieChart />
@@ -54,7 +34,7 @@ import ConsumeDelMes from '../components/ConsumoDelMes.vue';
 
 <style scoped>
 ion-content {
-    --background: #f4f4f4;
+    --background:rgb(255, 255, 255);
 }
 
 .estadistica {
@@ -62,5 +42,31 @@ ion-content {
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.transaction-header {
+    text-align: center;
+    padding: 30px;
+    background: #f9fafb
+    
+   }
+
+.text-content h2 {
+    color: #1f2937;
+    font-weight: semibold;
+    margin: 0;
+}
+
+.text-content p {
+    color: #9ca3af;
+    margin: 0;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.text-content h1 {
+    color: #1e3a8a;
+    font-size: 16px;
+    font-weight: bold; 
+    margin: 10px 0 0;
 }
 </style>
