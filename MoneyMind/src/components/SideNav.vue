@@ -38,12 +38,7 @@
         <ion-item-divider>
           <ion-label>Security</ion-label>
         </ion-item-divider>
-        <ion-item>
-          <ion-icon slot="start" :icon="fingerPrintOutline"></ion-icon>
-          <ion-label>Face ID</ion-label>
-          <ion-toggle slot="end" color="primary"></ion-toggle>
-        </ion-item>
-        <ion-item button @click="goTo('/change-password')">
+           <ion-item button @click="goTo('/change-password')">
           <ion-icon slot="start" :icon="lockClosedOutline"></ion-icon>
           <ion-label>Change Password</ion-label>
         </ion-item>
@@ -59,11 +54,7 @@
           <ion-icon slot="start" :icon="notificationsOutline"></ion-icon>
           <ion-label>Notification</ion-label>
         </ion-item>
-        <ion-item button @click="goTo('/languages')">
-          <ion-icon slot="start" :icon="globeOutline"></ion-icon>
-          <ion-label>Languages</ion-label>
-        </ion-item>
-        <ion-item button @click="goTo('/help')">
+          <ion-item button @click="goTo('/help')">
           <ion-icon slot="start" :icon="helpCircleOutline"></ion-icon>
           <ion-label>Help and Support</ion-label>
         </ion-item>
@@ -78,18 +69,16 @@
 </template>
 
 <script setup>
-import { IonMenu, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonItemDivider, IonLabel, IonIcon, IonAvatar, IonButton, IonButtons, IonToggle, menuController } from '@ionic/vue';
+import { IonMenu, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonItemDivider, IonLabel, IonIcon, IonAvatar, IonButton, IonToggle, menuController } from '@ionic/vue';
 import { useRouter } from 'vue-router';
-import { chevronBackOutline, personOutline, timeOutline, fingerPrintOutline, lockClosedOutline, lockOpenOutline, notificationsOutline, globeOutline, helpCircleOutline, logOutOutline } from 'ionicons/icons';
+import { personOutline, timeOutline, fingerPrintOutline, lockClosedOutline, lockOpenOutline, notificationsOutline, globeOutline, helpCircleOutline, logOutOutline } from 'ionicons/icons';
 
 const router = useRouter();
-
 
 const goTo = async (path) => {
   await menuController.close();
   router.push(path);
 };
-
 
 const logout = async () => {
   await menuController.close();
@@ -97,54 +86,75 @@ const logout = async () => {
 };
 </script>
 
-
 <style scoped>
 .profile-header {
-  --background: white;
+  --background: #ffffff;
+  border-bottom: 1px solid #ddd;
 }
 
-.title {
-  color: black;
+s {
+  color: #333;
+  font-weight: bold;
 }
 
 .profile-info {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 16px;
+  padding: 20px;
   text-align: center;
-  color: black;
+  background: #f8f9fa;
+  border-radius: 10px;
+  margin: 10px;
 }
 
 .profile-avatar {
-  width: 80px;
-  height: 80px;
-  margin-bottom: 10px;
+  width: 90px;
+  height: 90px;
+  margin-bottom: 12px;
+  border: 2px solid #007bff;
 }
 
 .profile-info h2 {
-  margin: 0;
-  font-size: 18px;
+  margin: 5px 0;
+  font-size: 20px;
   font-weight: bold;
+  color: #333;
 }
 
 .profile-info p {
   margin: 0;
   font-size: 14px;
-  color: #666;
+  color: #777;
 }
 
 ion-item-divider {
-  --background: #f4f4f4;
-  --color: #666;
+  --background: #e9ecef;
+  --color: #444;
   font-weight: bold;
+  font-size: 14px;
+}
+
+ion-item {
+  --background: #ffffff;
+  --color: #333;
+  font-size: 16px;
+}
+
+ion-item:hover {
+  background: #f1f3f5;
 }
 
 .logout-item {
   --color: red;
+  font-weight: bold;
 }
 
 .logout-item ion-icon {
   color: red;
+}
+
+.logout-item:hover {
+  background: #ffe6e6;
 }
 </style>

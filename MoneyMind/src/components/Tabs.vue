@@ -47,6 +47,12 @@ ion-tab-button {
 }
 
 ion-tab-bar {
-  --background: #f4f5f8;
+  z-index: 100;
+  height: 70px;
+  --background: #ffffff;
+  border-top-left-radius: 8%;
+  border-top-right-radius: 8%;
+  box-shadow: 0px -4px 10px rgba(136, 136, 136, 0.2);
 }
+
 </style>

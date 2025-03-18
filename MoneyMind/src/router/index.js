@@ -8,16 +8,18 @@ import RegistroFinanzas from '../views/RegistroFinanzas.vue'
 import MyProfile from '../views/MyProfile.vue';
 import SideNav from '../components/SideNav.vue';
 import HistoryTransaction from '../views/HistoryTransaction.vue';
+import Login from '../views/Login.vue';
 
 const routes = [
   {
     path: '/',
-    redirect: '/tabs/homepage'
+    redirect: '/tabs/login'
   },
   {
     path: '/tabs/',
     component: Tabs,
     children: [
+      { path: 'login', component: Login },
       { path: 'homepage', component: HomePage },
       { path: 'statistic', component: Statistic },
       { path: 'mycards', component: MyCards },
