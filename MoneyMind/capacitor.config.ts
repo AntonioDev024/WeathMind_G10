@@ -4,6 +4,10 @@ const config: CapacitorConfig = {
   appId: 'io.ionic.starter',
   appName: 'MoneyMind',
   webDir: 'dist',
+  server: {
+    androidScheme: 'moneyminds',
+    hostname: 'app'
+  },
   plugins: {
     SplashScreen: {
       launchShowDuration: 3000, // Duración en milisegundos (3 segundos)

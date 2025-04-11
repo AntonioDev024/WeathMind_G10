@@ -76,14 +76,28 @@ const showAlert = async (header, message) => {
   await alert.present();
 };
 
+const validatePassword = (password) => {
+  const hasLowerCase = /[a-z]/.test(password);
+  if (!hasLowerCase) {
+    return 'La contraseña debe tener al menos una letra minúscula (a-z).';
+  }
+  return null;
+};
+
 const changePassword = async () => {
   if (!newPassword.value || !confirmPassword.value) {
-    errorMessage.value = 'Both fields are required.';
+    errorMessage.value = 'Ambos campos son requeridos.';
+    return;
+  }
+
+  const passwordError = validatePassword(newPassword.value);
+  if (passwordError) {
+    errorMessage.value = passwordError;
     return;
   }
 
   if (newPassword.value !== confirmPassword.value) {
-    errorMessage.value = 'Passwords do not match.';
+    errorMessage.value = 'Las contraseñas no coinciden.';
     return;
   }
 
