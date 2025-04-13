@@ -1,5 +1,6 @@
 <template>
-  <IonPage>
+  <IonPage id="main-content">
+    <Sidenav />
     <div class="home-page">
       <!-- Header con avatar, bienvenida y botón + -->
       <div class="header improved-header">
@@ -70,7 +71,7 @@
       
       <!-- Modal Formulario -->
       <ion-modal :is-open="showForm" @didDismiss="showForm = false">
-  <ion-content class="ion-padding">
+  <ion-content class="ion-padding" @click="handleClickOutside">
     <div class="form-container">
       <!-- Botón de cerrar -->
       <ion-button fill="clear" class="close-btn" @click="showForm = false">
@@ -183,9 +184,20 @@ import {
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import Sidenav from '../components/SideNav.vue';
 
 const openMenu = async () => {
   await menuController.open(); // Asegura que el menú se abra
+};
+
+const handleClickOutside = async (event) => {
+  const menu = await menuController.get('main-menu'); // Usa el ID correcto del menú
+  if (menu && menu.isOpen()) {
+    const isClickInsideMenu = event.target.closest('ion-menu');
+    if (!isClickInsideMenu) {
+      await menuController.close('main-menu'); // Cierra el menú usando el ID correcto
+    }
+  }
 };
 
 
