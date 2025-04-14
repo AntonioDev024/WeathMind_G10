@@ -8,6 +8,11 @@
       <h1>${{ totalBalance.toLocaleString() }}</h1>
     </div>
 
+    <template>
+  <TransactionHeader :transactionTotal="totalTransactions" />
+</template>
+
+
     <div class="balance-types">
       <div
         v-for="(amount, type) in balanceByType"
@@ -85,6 +90,14 @@ const getUserBalance = async () => {
 onMounted(() => {
   getUserBalance();
 });
+
+defineProps({
+  transactionTotal: {
+    type: Number,
+    default: 0
+  }
+});
+
 </script>
 
 <style scoped>

@@ -4,7 +4,13 @@
       <!-- Header con avatar, bienvenida y botón + -->
       <div class="header improved-header">
         <div class="welcome">
-            <img class="avatar" :src="userProfile.profilePicture || 'https://i.pravatar.cc/50'" alt="avatar"  @click="openMenu" style=" cursor: pointer" />
+          <img
+            class="avatar"
+            :src="userProfile.profilePicture || 'https://i.pravatar.cc/50'"
+            alt="avatar"
+            @click="openMenu"
+            style="cursor: pointer"
+          />
           <div>
             <p class="welcome-message">Welcome back 👋</p>
             <h2 class="user-name">{{ userProfile.fullName }}</h2>
@@ -19,7 +25,7 @@
       <!-- Saldo Total -->
       <div class="balance-container">
         <p class="balance-label">Your Balance</p>
-        <h1 class="balance-amount">${{ totalBalance.toLocaleString() }}</h1>
+        <h1 class="balance-amount">${{ totalBalance.toFixed(2).toLocaleString() }}</h1>
       </div>
 
       <!-- Productos vinculados en carrusel -->
@@ -41,13 +47,32 @@
                 <p class="card-sub">Balance</p>
                 <h2 class="card-balance">${{ product.balance.toLocaleString() }}</h2>
               </div>
-              <p class="card-type">{{ product.productType }}</p>
+              <div class="card-type-row">
+  <p class="card-type">{{ product.productType }}</p>
+  <div class="card-actions">
+    <ion-button
+      fill="clear"
+      size="small"
+      @click="editarProducto(product)"
+    >
+      <ion-icon slot="icon-only" name="create-outline" />
+    </ion-button>
+    <ion-button
+      fill="clear"
+      size="small"
+      @click="eliminarProducto(product.id)"
+    >
+      <ion-icon slot="icon-only" name="trash-outline" />
+    </ion-button>
+  </div>
+</div>
+
             </div>
           </SwiperSlide>
         </Swiper>
       </div>
-
-      <!-- Últimos movimientos -->
+             
+        <!-- Últimos movimientos -->
       <div class="movements">
         <h4>Últimos Movimientos</h4>
         <div class="movement-scroll">
@@ -287,8 +312,14 @@ const registrarProducto = async () => {
     return;
   }
 
+  if (!newProduct.value.name || !newProduct.value.balance || !newProduct.value.productType) {
+    toastMessage.value = 'Completa todos los campos obligatorios.';
+    toastVisible.value = true;
+    return;
+  }
+
   const payload = {
-    id: "string", // requerido por la API
+    id: "string", // obligatorio según API
     name: newProduct.value.name,
     balance: newProduct.value.balance,
     productType: newProduct.value.productType,
@@ -297,7 +328,7 @@ const registrarProducto = async () => {
     debt: newProduct.value.extra.debt || 0,
     termInMonths: newProduct.value.extra.termInMonths || 0,
     interestRate: newProduct.value.extra.interestRate || 0,
-    endDate: newProduct.value.extra.endDate || null,
+    endDate: newProduct.value.extra.endDate || null
   };
 
   try {
@@ -319,20 +350,89 @@ const registrarProducto = async () => {
       return;
     }
 
-    // Producto creado, actualizar lista
-    products.value.push(result);
+    // Recargar productos desde la API
+    await refreshProducts();
+
     toastMessage.value = 'Producto registrado con éxito.';
     toastVisible.value = true;
     showForm.value = false;
 
     // Reset del formulario
-    newProduct.value = { name: '', balance: 0, productType: '', extra: {} };
+    newProduct.value = {
+      name: '',
+      balance: 0,
+      productType: '',
+      extra: {}
+    };
   } catch (error) {
     console.error('Error:', error);
     toastMessage.value = 'Error inesperado.';
     toastVisible.value = true;
   }
 };
+
+const refreshProducts = async () => {
+  const token = localStorage.getItem('jwtToken');
+  const userId = JSON.parse(localStorage.getItem('userData') || '{}')?.userId;
+
+  try {
+    const res = await fetch(`https://dev.genlabs.us/api/product/by-user/${userId}`, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    if (res.ok) {
+      products.value = await res.json();
+    }
+  } catch (e) {
+    console.error('Error recargando productos:', e);
+  }
+};
+
+const editarProducto = (producto) => {
+  newProduct.value = {
+    id: producto.id,
+    name: producto.name,
+    balance: producto.balance,
+    productType: producto.productType,
+    extra: {
+      creditLimit: producto.creditLimit,
+      debt: producto.debt,
+      termInMonths: producto.termInMonths,
+      interestRate: producto.interestRate,
+      endDate: producto.endDate,
+      expirationDate: producto.expirationDate
+    }
+  };
+  showForm.value = true;
+};
+
+
+const eliminarProducto = async (id) => {
+  const token = localStorage.getItem('jwtToken');
+  const confirmDelete = confirm('¿Estás seguro de eliminar este producto?');
+
+  if (!confirmDelete) return;
+
+  try {
+    const res = await fetch(`https://dev.genlabs.us/api/product/${id}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` }
+    });
+
+    if (res.status === 204) {
+      toastMessage.value = 'Producto eliminado exitosamente.';
+      await refreshProducts();
+    } else {
+      toastMessage.value = 'No se pudo eliminar el producto.';
+    }
+    toastVisible.value = true;
+  } catch (e) {
+    toastMessage.value = 'Error al eliminar.';
+    toastVisible.value = true;
+    console.error(e);
+  }
+  
+};
+
 
 </script>
 
@@ -368,7 +468,7 @@ const registrarProducto = async () => {
   margin-top: 10%;
   font-size: 14px;
   margin: 0;
-  color:#9CA4AB;
+  color: #9CA4AB;
   position: absolute;
 }
 
@@ -388,7 +488,6 @@ const registrarProducto = async () => {
   font-size: 14px;
   color: #9CA4AB;
   margin: 0;
-  position: static;
 }
 
 .balance-amount {
@@ -396,7 +495,6 @@ const registrarProducto = async () => {
   color: #1d4ed8;
   font-weight: 700;
   margin: 0;
-  position: static;
   text-align: left;
 }
 
@@ -458,7 +556,7 @@ const registrarProducto = async () => {
 }
 
 .movements p {
-  font-size: 12px; 
+  font-size: 12px;
 }
 
 .movements h4 {
@@ -466,13 +564,13 @@ const registrarProducto = async () => {
   font-size: 16px;
   color: #042A72;
   font-weight: 600;
-  text-align: center;   
+  text-align: center;
 }
 
 .movements h5 {
   margin-bottom: 1px;
   color: #1d4ed8;
-  font-size: 14px; 
+  font-size: 14px;
 }
 
 .movement-scroll {
@@ -561,7 +659,9 @@ const registrarProducto = async () => {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
   margin-top: 20px;
   position: relative;
-  overflow: hidden;
+  overflow: visible !important;
+  z-index: 0;
+  height: 200px;
 }
 
 .linked-product-card::after {
@@ -573,6 +673,8 @@ const registrarProducto = async () => {
   border-radius: 50%;
   top: -20px;
   right: -20px;
+  z-index: 0 !important;
+  pointer-events: none;
 }
 
 .card-label {
@@ -617,12 +719,6 @@ const registrarProducto = async () => {
   margin-top: 40px;
 }
 
-.text-center {
-  color: #212529;
-  font-size: large;
-  font-weight: bold;
-}
-
 .input-label {
   font-weight: bold;
   margin: 10px 0 4px;
@@ -643,12 +739,39 @@ const registrarProducto = async () => {
   --color: white;
 }
 
-.close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+.card-type-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  position: relative;
   z-index: 10;
-  color: #1a1a1a;
-  font-size: 20px;
 }
+
+.card-actions {
+  display: flex;
+  gap: 8px;
+  z-index: 15;
+  position: relative;
+  align-items: center;
+}
+
+.card-actions ion-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  --color: white;
+  --box-shadow: none;
+  padding: 0;
+}
+
+.card-actions ion-icon {
+  font-size: 18px;
+  color: white;
+}
+
 </style>

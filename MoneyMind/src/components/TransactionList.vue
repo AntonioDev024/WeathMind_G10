@@ -254,6 +254,13 @@ const filteredTransactions = computed(() => {
     }
   });
 });
+
+const totalTransactions = computed(() =>
+  transactions.value.reduce((sum, tx) => sum + tx.amount, 0)
+);
+
+
+
 </script>
 
 <style scoped>
