@@ -54,16 +54,18 @@
     <ion-button
       fill="clear"
       size="small"
-      @click="editarProducto(product)"
-    >
-      <ion-icon slot="icon-only" name="create-outline" />
+      @click="editarProducto(product)">    
+      <ion-icon class="icon1" slot="icon-only" name="create-outline" />
     </ion-button>
+  </div>
+  <div class="card-actions1">
     <ion-button
+      class="card-action2"
       fill="clear"
       size="small"
       @click="eliminarProducto(product.id)"
     >
-      <ion-icon slot="icon-only" name="trash-outline" />
+      <ion-icon class="icon1"  slot="icon-only" name="trash-outline" />
     </ion-button>
   </div>
 </div>
@@ -206,10 +208,19 @@ import {
   IonPage, IonButton, IonIcon, IonModal, IonList, IonItem,
   IonInput, IonSelect, IonSelectOption, IonContent, IonToast,
 } from '@ionic/vue';
+import { addIcons } from 'ionicons';
+import { createOutline, trashOutline } from 'ionicons/icons';
+
+
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import Sidenav from '../components/SideNav.vue';
+
+addIcons({
+  'create-outline': createOutline,
+  'trash-outline': trashOutline
+});
 
 const openMenu = async () => {
   await menuController.open(); // Asegura que el menú se abra
@@ -766,6 +777,7 @@ const eliminarProducto = async (id) => {
   z-index: 15;
   position: relative;
   align-items: center;
+
 }
 
 .card-actions ion-button {
@@ -774,9 +786,30 @@ const eliminarProducto = async (id) => {
   justify-content: center;
   width: 32px;
   height: 32px;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgb(228, 195, 11);
   border-radius: 50%;
-  --color: white;
+  --color: #ffff00;
+  --box-shadow: none;
+  padding: 0;
+}
+
+.card-actions1s {
+  display: flex;
+  gap: 8px;
+  z-index: 15;
+  position: relative;
+  align-items: center;
+}
+
+.card-actions1 ion-button{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 2, 2, 0.774);
+  border-radius: 50%;
+  --color: #ff0000;
   --box-shadow: none;
   padding: 0;
 }
@@ -785,5 +818,13 @@ const eliminarProducto = async (id) => {
   font-size: 18px;
   color: white;
 }
+
+.icon1 {
+  font-size: 18px;
+  z-index: 1000;
+  color: #ffffff;
+  position: absolute;
+  justify-items: center;
+} 
 
 </style>

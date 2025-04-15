@@ -2,7 +2,7 @@
   <ion-menu side="start" content-id="main-content" id="MyProfile" swipe-gesture="true">
     <ion-content>
       <ion-header>
-        <ion-toolbar>
+        <ion-toolbar class="menu-toolbar">
           <ion-buttons slot="start">
             <ion-menu-toggle>
               <ion-button fill="clear" class="close-button">
@@ -14,7 +14,6 @@
         </ion-toolbar>
       </ion-header>
 
-      <!-- Perfil -->
       <div class="profile-info">
         <ion-avatar class="profile-avatar">
           <img :src="userProfile.profilePicture" alt="User Avatar" />
@@ -23,8 +22,7 @@
         <p>{{ userProfile.email }}</p>
       </div>
 
-      <!-- Lista de opciones -->
-      <ion-list>
+      <ion-list class="custom-list">
         <ion-item-divider>
           <ion-label>Personal Info</ion-label>
         </ion-item-divider>
@@ -32,7 +30,7 @@
           <ion-icon slot="start" :icon="personOutline"></ion-icon>
           <ion-label>Your Profile</ion-label>
         </ion-item>
-        <ion-item button @click="goTo('/HistoryTransaction')">
+        <ion-item button @click="goTo('/tabs/mycards')">
           <ion-icon slot="start" :icon="timeOutline"></ion-icon>
           <ion-label>History Transaction</ion-label>
         </ion-item>
@@ -40,19 +38,11 @@
         <ion-item-divider>
           <ion-label>Security</ion-label>
         </ion-item-divider>
-        <ion-item>
-          <ion-icon slot="start" :icon="fingerPrintOutline"></ion-icon>
-          <ion-label>Face ID</ion-label>
-          <ion-toggle slot="end" color="primary"></ion-toggle>
-        </ion-item>
-        <ion-item button @click="goTo('/change-password')">
+          <ion-item button @click="goTo('/ChangePassword')">
           <ion-icon slot="start" :icon="lockClosedOutline"></ion-icon>
           <ion-label>Change Password</ion-label>
         </ion-item>
-        <ion-item button @click="goTo('/forgot-password')">
-          <ion-icon slot="start" :icon="lockOpenOutline"></ion-icon>
-          <ion-label>Forgot Password</ion-label>
-        </ion-item>
+       
 
         <ion-item-divider>
           <ion-label>General</ion-label>
@@ -79,6 +69,7 @@
   </ion-menu>
 </template>
 
+
 <script setup>
 import {
   IonMenu, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonItem, IonItemDivider, IonLabel, IonIcon, IonAvatar, IonButton, IonButtons, IonToggle, IonMenuToggle, menuController
@@ -90,6 +81,7 @@ import {
   lockClosedOutline, lockOpenOutline, notificationsOutline, globeOutline,
   helpCircleOutline, logOutOutline, closeOutline
 } from 'ionicons/icons';
+
 
 const router = useRouter();
 
@@ -125,75 +117,87 @@ const logout = async () => {
 </script>
 
 <style scoped>
-ion-toolbar {
-  --background: #f4f4f4;
-  --color: #333;
+.menu-toolbar {
+  --background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 .title {
-  color: black;
-  font-weight: bold;
-  font-size: 1.2rem;
+  color: #1e1e1e;
+  font-weight: 600;
+  font-size: 20px;
 }
 
 .close-button {
-  --padding-start: 0;
-  --padding-end: 0;
-  --background: transparent;
   color: #007bff;
-  font-size: 24px;
-  margin-left: -10px;
+  font-size: 22px;
 }
 
 .profile-info {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 16px;
+  background-color: #f0f4f8;
+  padding: 12px 16px;
+  border-bottom: 1px solid #ddd;
   text-align: center;
-  color: black;
-  background-color: #f4f4f4;
-}
-
-ion-list {
-  padding: 0;
-}
-
-ion-content {
-  --background: #fff;
 }
 
 .profile-avatar {
-  width: 80px;
-  height: 80px;
-  margin-bottom: 10px;
+  width: 90px;
+  height: 90px;
+  margin-bottom: 12px;
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
   object-fit: cover;
-  border-radius: 50%;
 }
 
 .profile-info h2 {
-  margin: 0;
+  margin: 4px 0;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: 600;
+  color: #1a1a1a;
 }
 
 .profile-info p {
   margin: 0;
   font-size: 14px;
-  color: #666;
+  color: #6b7280;
+}
+
+ion-list.custom-list {
+  padding: 8px;
+}
+
+ion-item {
+  --padding-start: 16px;
+  --inner-padding-end: 16px;
+  --background: transparent;
+  border-radius: 12px;
+  margin: 6px 12px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+ion-item:hover {
+  --background: #f0f0f0;
 }
 
 ion-item-divider {
-  --background: #f4f4f4;
-  --color: #666;
-  font-weight: bold;
+  margin-top: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: #888;
 }
 
 .logout-item {
+  margin-top: 12px;
   --color: red;
 }
 
 .logout-item ion-icon {
   color: red;
 }
+
 </style>

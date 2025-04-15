@@ -30,6 +30,7 @@
     </div>
 
     <!-- Lista de transacciones -->
+    <div class="transaction-scroll">
     <div
       v-if="filteredTransactions.length > 0"
       v-for="(item, index) in filteredTransactions"
@@ -58,11 +59,13 @@
       <p>No se encontraron transacciones en este período.</p>
     </div>
   </div>
+</div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
 import { IonIcon } from '@ionic/vue';
+
 
 const selected = ref('Year');
 const filters = ['24h', 'Week', 'Month', 'Year'];
@@ -74,6 +77,7 @@ const selectedYear = ref(new Date().getFullYear());
 const allTransactions = ref([]);
 const userId = localStorage.getItem('userId');
 const jwt = localStorage.getItem('jwtToken');
+
 
 // Al cambiar filtro, setea fecha por defecto
 watch(selected, (newVal) => {
@@ -255,10 +259,17 @@ const filteredTransactions = computed(() => {
   });
 });
 
+
 const totalTransactions = computed(() =>
   transactions.value.reduce((sum, tx) => sum + tx.amount, 0)
 );
 
+const emit = defineEmits(['updateTotal']);
+
+watch(filteredTransactions, (newList) => {
+  const total = newList.reduce((sum, tx) => sum + (parseFloat(tx.amount) || 0), 0);
+  emit('updateTotal', total);
+}, { immediate: true });
 
 
 </script>
@@ -387,4 +398,11 @@ const totalTransactions = computed(() =>
   margin: 0 auto 20px;
   opacity: 0.8;
 }
+
+.transaction-scroll {
+  max-height: 550px; /* o el tamaño que prefieras */
+  overflow-y: auto;
+  padding-right: 5px; /* para evitar que el scroll tape contenido */
+}
+
 </style>

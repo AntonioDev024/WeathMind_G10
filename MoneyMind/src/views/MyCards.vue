@@ -2,7 +2,7 @@
   <ion-page>
       <ion-header>
           <ion-toolbar>
-              <TransactionHeader />
+            <TransactionHeader :transactionTotal="transactionTotal" />
           </ion-toolbar>
       </ion-header>
       

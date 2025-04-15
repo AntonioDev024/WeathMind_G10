@@ -2,18 +2,16 @@
   <div class="transaction-header">
     <router-link to="/tabs/homepage" class="back-button">&#8249;</router-link>
 
-    <div class="text-content">
-      <h2>Transacciones</h2>
+    <div class="text-content"> 
+      <h2>Transacciones</h2><!-- Contenido de texto 
       <p>Tu saldo total</p>
-      <h1>${{ totalBalance.toLocaleString() }}</h1>
+      <p class="transaction-total">Total de transacciones filtradas: ${{ transactionTotal.toLocaleString() }}</p>
+      <p class="transaction-total">Saldo total de productos: ${{ totalBalance.toLocaleString() }}</p>
+      <p class="transaction-total">Saldo total de productos filtrados: ${{ transactionTotal.toLocaleString() }}</p>
+      <h1>${{ totalBalance.toLocaleString() }}</h1>-->
     </div>
 
-    <template>
-  <TransactionHeader :transactionTotal="totalTransactions" />
-</template>
-
-
-    <div class="balance-types">
+       <div class="balance-types">
       <div
         v-for="(amount, type) in balanceByType"
         :key="type"
@@ -29,6 +27,10 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
+
+onMounted(() => {
+  getUserBalance();
+});
 
 // Variables reactivas
 const totalBalance = ref(0);
@@ -87,9 +89,7 @@ const getUserBalance = async () => {
   }
 };
 
-onMounted(() => {
-  getUserBalance();
-});
+
 
 defineProps({
   transactionTotal: {
@@ -104,7 +104,7 @@ defineProps({
 .transaction-header {
   position: relative;
   background-color: #ffffff;
-  padding: 32px 24px 24px;
+  padding: 16px 16px 1px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   border-bottom: 1px solid #e5e7eb;
   border-radius: 0 0 16px 16px;
@@ -112,8 +112,11 @@ defineProps({
 
 .back-button {
   position: absolute;
+  width: 40px;
+  height: 40px;
   top: 24px;
   left: 24px;
+  top: 20px;
   font-size: 24px;
   color: #0a2f73;
   border: 1px solid #0a2f73;
@@ -122,6 +125,9 @@ defineProps({
   border-radius: 50%;
   text-decoration: none;
   transition: background-color 0.2s, transform 0.2s;
+  justify-content: center;
+  display: flex;
+  align-items: center;  
 }
 
 .back-button:hover {
