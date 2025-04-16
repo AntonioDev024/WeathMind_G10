@@ -1,6 +1,5 @@
-<!-- src/views/UserLogin.vue -->
 <template>
-  <ion-page :class="{ 'dark-mode': isDarkMode }">
+  <ion-page>
     <ion-content class="ion-padding">
       <div class="form-container centered">
         <h2 class="text-center">{{ isLogin ? 'Sign In' : 'Sign Up' }}</h2>
@@ -8,7 +7,7 @@
           {{ isLogin ? 'Hi, Welcome Back! 👋' : 'Create a new account 🎉' }}
         </p>
 
-        <ion-list>
+      
           <div v-if="!isLogin" class="input-group">
             <label class="input-label">Full Name</label>
             <ion-item class="input-field" lines="none">
@@ -42,7 +41,7 @@
                 placeholder="Confirm your password" required />
             </ion-item>
           </div>
-        </ion-list>
+  
 
         <div v-if="isLogin" class="d-flex justify-content-between align-items-center mb-3">
           <div class="form-check">
@@ -69,10 +68,11 @@
   </ion-page>
 </template>
 
-<script setup>
+<script setup name="LoginPage">
+
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { IonPage, IonContent, IonList, IonItem, IonInput, IonButton, IonIcon } from '@ionic/vue';
+import { IonPage, IonContent, IonItem, IonInput, IonButton, IonIcon } from '@ionic/vue';
 import { eye, eyeOff } from 'ionicons/icons';
 import { jwtDecode } from 'jwt-decode';
 
@@ -83,16 +83,11 @@ const email = ref('');
 const password = ref('');
 const confirmPassword = ref('');
 const showPassword = ref(false);
-const isDarkMode = ref(false);
 const showOtpInput = ref(false);
 const rememberMe = ref(false);
 
 onMounted(() => {
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-  isDarkMode.value = prefersDark.matches;
-  prefersDark.addEventListener('change', (e) => {
-    isDarkMode.value = e.matches;
-  });
+
 
   if (localStorage.getItem('rememberMe') === 'true') {
     email.value = localStorage.getItem('email') || '';
@@ -239,20 +234,13 @@ const signUp = async () => {
 
 <style>
 :root {
-  --background-color: #f8f9fa;
-  /* Fondo general claro */
-  --form-bg: #ffffff;
-  /* Fondo del formulario */
-  --text-color: #212529;
-  /* Negro suave */
-  --input-bg: #f1f3f4;
-  /* Fondo de los inputs */
-  --input-border: #ced4da;
-  /* Borde gris claro */
-  --button-bg: #033974;
-  /* Azul botón */
+  --background-color: #f0f0f0;
+  --text-color: #333;
+  --form-bg: #fff;
+  --input-bg: #eaeaea;
+  --input-border: #ccc;
+  --button-bg: #007bff;
   --button-hover: #0056b3;
-  /* Azul más oscuro */
   --shadow-light: rgba(0, 0, 0, 0.1);
 }
 
@@ -308,8 +296,16 @@ label {
   color: var(--text-color);
 }
 
+ion-list {
+  --background: #ffffff !important;
+  --color: #000000 !important;
+}
+
+
+/* Iconos */
+
 /* Inputs */
-.input-field {
+ion-item {
   width: 100%;
   padding: 12px;
   border: none;
@@ -361,78 +357,4 @@ label {
   color: var(--button-hover);
 }
 
-
-.dark-mode {
-  --background-color: #121212;
-  --form-bg: #1e1e1e;
-  --text-color: #ffffff;
-  --input-bg: #2c2c2c;
-  --input-border: #444;
-  --button-bg: #007bff;
-  --button-hover: #0056b3;
-  --shadow-light: rgba(255, 255, 255, 0.1);
-}
-
-.dark-mode body {
-  background-color: var(--background-color);
-  color: var(--text-color);
-}
-
-.dark-mode .form-container {
-  background: var(--form-bg);
-  box-shadow: 0 4px 10px var(--shadow-light);
-}
-
-.dark-mode input,
-.dark-mode .input-field {
-  background-color: var(--input-bg) !important;
-  color: #fff !important;
-  padding: auto;
-
-}
-
-.dark-mode input::placeholder {
-  color: #aaa !important;
-  /* Hace el placeholder más visible */
-}
-
-.dark-mode input:focus {
-  border-color: var(--button-bg) !important;
-  outline: none !important;
-  border-radius: 1px !important;
-  box-shadow: 0px 4px 8px rgba(0, 123, 255, 0.2) !important;
-}
-
-.dark-mode ion-input {
-  --background: #2c2c2c !important;
-  /* Fondo oscuro */
-  --color: #ffffff !important;
-  /* Texto blanco */
-}
-
-.dark-mode ion-item {
-  --background: transparent !important;
-  /* Fondo transparente */
-  --border-color: #444 !important;
-  /* Borde visible */
-}
-
-
-.dark-mode .toggle-link {
-  color: var(--button-bg);
-}
-
-/* Modo Oscuro Automático */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background-color: #121212;
-    --form-bg: #1e1e1e;
-    --text-color: #ffffff;
-    --input-bg: #2c2c2c;
-    --input-border: #444;
-    --button-bg: #007bff;
-    --button-hover: #0056b3;
-    --shadow-light: rgba(255, 255, 255, 0.1);
-  }
-}
 </style>

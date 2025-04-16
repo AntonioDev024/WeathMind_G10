@@ -1,2 +1,26 @@
 /* For information on how to create your own theme, please see:
 http://ionicframework.com/docs/theming/ */
+/* Ionic Core CSS */
+:root {
+    color-scheme: light;
+  }
+  
+  html, body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+  
+  ion-content {
+    --background: #ffffff !important;
+    --color: #000000 !important;
+  }
+  
+
+  ion-item {
+    --background: #ffffff !important;
+    --color: #000000 !important;
+  }
+
+
+
+

@@ -1,5 +1,5 @@
-import { createApp } from 'vue'
-import App from './App.vue'
+import { createApp } from 'vue';
+import App from './App.vue';
 import router from './router';
 import { addIcons } from 'ionicons';
 import { 
@@ -38,16 +38,8 @@ import '@ionic/vue/css/text-transformation.css';
 import '@ionic/vue/css/flex-utils.css';
 import '@ionic/vue/css/display.css';
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
-
-/* @import '@ionic/vue/css/palettes/dark.always.css'; */
-/* @import '@ionic/vue/css/palettes/dark.class.css'; */
-import '@ionic/vue/css/palettes/dark.system.css';
+/* Eliminar la referencia al modo oscuro */
+ // import '@ionic/vue/css/palettes/dark.system.css'; // Comentar o eliminar esta línea
 
 /* Theme variables */
 import './theme/variables.css';
@@ -57,5 +49,8 @@ const app = createApp(App)
   .use(router);
 
 router.isReady().then(() => {
+  // Forzar el modo claro
+  document.body.classList.remove('dark');
+  document.body.classList.add('light'); // Asegura el modo claro
   app.mount('#app');
 });
