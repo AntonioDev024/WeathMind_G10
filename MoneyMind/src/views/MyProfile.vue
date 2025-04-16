@@ -1,67 +1,109 @@
 <template>
   <ion-page>
-    <!-- Encabezado -->
     <IonHeader>
       <IonToolbar>
-        <HeaderMyProfile></HeaderMyProfile>
+        <HeaderMyProfile />
       </IonToolbar>
     </IonHeader>
 
-    <ion-content fullscreen="true">
-      <!-- Contenedor para la card de perfil -->
+    <ion-content fullscreen="true" class="ion-padding">
       <div class="profile-container">
         <ion-card class="profile-card center">
           <ion-card-header class="text-centered">
-              <div class="avatar-container">
-                <ion-avatar class="foto-perfil">
-                  <img :src="user.avatarUrl" alt="avatar"/>
-                </ion-avatar>
-              </div>
-            </ion-card-header>
+            <div class="avatar-container">
+              <ion-avatar class="foto-perfil">
+                <img :src="user.avatarUrl" alt="avatar" />
+                <ion-icon
+                  class="edit-icon"
+                  name="camera-outline"
+                  @click="changeAvatar"
+                ></ion-icon>
+              </ion-avatar>
+            </div>
+          </ion-card-header>
 
           <ion-card-content>
             <ion-list lines="none">
               <ion-item>
-                <ion-label>
-                  <p class="label">Full Name</p>
-                  <h3>{{ user.fullName }}</h3>
-                </ion-label>
+                <ion-label position="stacked">Full Name</ion-label>
+                <ion-input
+                  v-if="editMode"
+                  v-model="user.fullName"
+                  placeholder="Enter full name"
+                />
+                <h3 v-else>{{ user.fullName }}</h3>
               </ion-item>
 
               <ion-item>
-                <ion-label>
-                  <p class="label">Username</p>
-                  <h3>{{ user.username }}</h3>
-                </ion-label>
+                <ion-label position="stacked">Username</ion-label>
+                <ion-input
+                  v-if="editMode"
+                  v-model="user.username"
+                  placeholder="Enter username"
+                />
+                <h3 v-else>{{ user.username }}</h3>
               </ion-item>
 
               <ion-item>
-                <ion-label>
-                  <p class="label">Email</p>
-                  <h3>{{ user.email }}</h3>
-                </ion-label>
+                <ion-label position="stacked">Email</ion-label>
+                <ion-input
+                  v-if="editMode"
+                  v-model="user.email"
+                  type="email"
+                  placeholder="Enter email"
+                />
+                <h3 v-else>{{ user.email }}</h3>
               </ion-item>
 
               <ion-item>
-                <ion-label>
-                  <p class="label">Phone Number</p>
-                  <h3>{{ user.phone }}</h3>
-                </ion-label>
+                <ion-label position="stacked">Phone Number</ion-label>
+                <ion-input
+                  v-if="editMode"
+                  v-model="user.phone"
+                  placeholder="Enter phone"
+                />
+                <h3 v-else>{{ user.phone }}</h3>
               </ion-item>
 
               <ion-item>
-                <ion-label>
-                  <p class="label">Address</p>
-                  <h3>{{ user.address }}</h3>
-                </ion-label>
+                <ion-label position="stacked">Address</ion-label>
+                <ion-input
+                  v-if="editMode"
+                  v-model="user.address"
+                  placeholder="Enter address"
+                />
+                <h3 v-else>{{ user.address }}</h3>
               </ion-item>
             </ion-list>
+
+     
+            <ion-button
+              expand="block"
+              color="primary"
+              v-if="editMode"
+              @click="saveProfile"
+            >
+              <ion-icon slot="start" name="save-outline"></ion-icon>
+              Guardar cambios
+            </ion-button>
+                   <div class="profile-financial-stats">
+              <div class="stat">
+                <h4>RD$ {{ user.finances.income }}</h4>
+                <p>Ingresos</p>
+              </div>
+              <div class="stat">
+                <h4>RD$ {{ user.finances.expenses }}</h4>
+                <p>Gastos</p>
+              </div>
+          
+            </div>
           </ion-card-content>
-       
         </ion-card>
       </div>
-      <ion-button fill="clear" class="edit-button" @click="editProfile">
-          <ion-icon name="create-outline"></ion-icon>
+
+      <!-- Botón flotante -->
+      <ion-button class="edit-button" @click="toggleEdit">
+        <ion-icon :name="editMode ? 'eye-outline' : 'create-outline'" />
       </ion-button>
     </ion-content>
   </ion-page>
@@ -69,16 +111,42 @@
 
 <script setup>
 import { ref } from "vue";
-// Removed unused useRouter import
-import User from "@/models/User";
 import { IonHeader, IonToolbar } from "@ionic/vue";
 import HeaderMyProfile from "../components/HeaderMyProfile.vue";
 
-// Removed unused router variable
+// Mock usuario
+const user = ref({
+  avatarUrl: "https://i.pravatar.cc/150?img=5",
+  fullName: "Jane Doe",
+  username: "janedoe",
+  email: "jane@example.com",
+  phone: "+1 (555) 987-6543",
+  address: "456 Main St, City, Country",
+  finances: {
+    income: 50000,
+    expenses: 38000,
+    savings: 120000,
+  },
+});
 
+const editMode = ref(false);
 
-// Cargar datos desde el modelo User.js
-const user = ref(User.mockData());
+function toggleEdit() {
+  editMode.value = !editMode.value;
+}
+
+function saveProfile() {
+  console.log("Guardado:", user.value);
+  editMode.value = false;
+}
+
+function logout() {
+  console.log("Cerrar sesión...");
+}
+
+function changeAvatar() {
+  console.log("Cambiar avatar...");
+}
 </script>
 
 <style scoped>
@@ -91,97 +159,27 @@ const user = ref(User.mockData());
   --shadow-light: rgba(0, 0, 0, 0.1);
 }
 
-.dark {
-  --background-color: #121212;
-  --header-bg: #1e1e1e;
-  --text-color: #ffffff;
-  --list-bg: #1e1e1e;
-  --border-color: #444;
-  --shadow-light: rgba(255, 255, 255, 0.1);
-}
-.header-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 20px;
-  background: #f9fafb;
-  position: relative;
+ion-content {
+  --background: var(--background-color);
 }
 
-/* Botón a la izquierda */
-.header-top .left {
-  display: flex;
-  justify-content: space-between;
-}
-
-/* Textos centrados */
-
-
-/* Eliminar margen para que suban */
-.center h2 {
-  margin: 0;
-  font-weight: 600;
-  color: #1f2937;
-}
-
-.center p {
-  margin: 2px 0;
-  font-size: 14px;
-  color: #9ca3af;
-}
-
-.center h1 {
-  margin: 5px 0 0;
-  font-size: 16px;
-  font-weight: bold;
-  color: #1e3a8a;
-}
-
-/* Contenedor del perfil */
 .profile-container {
   display: flex;
   justify-content: center;
-  padding: 20px;
+  padding: 0px 10px 70px;
 }
 
-/* Card */
 .profile-card {
+  width: 100%;
+  max-width: 400px;
+  margin-top: 0px;
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px var(--shadow-light);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: 100%;
-  max-width: 400px;
-  box-shadow: 0 4px 10px var(--shadow-light);
-  border-radius: 10px;
-  background-color: var(--background-color);
-  border: 1px solid var(--border-color);
-  color: var(--text-color);
-  margin: 20px;
-}
-
-/* Contenido */
-ion-content {
-  --background: var(--background-color);
-  --padding-top: 35px;
-  --padding-bottom: 0px;
-  --padding-start: 0px;
-  --padding-end: 0px;
-}
-
-/* Avatar */
-.foto-perfil {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-ion-avatar {
-  width: 100px;
-  height: 100px;
-  border: 3px solid var(--border-color);
-  justify-content: center;
 }
 
 .avatar-container {
@@ -192,32 +190,36 @@ ion-avatar {
   width: 100%;
 }
 
-/* Botón de editar */
-.edit-button {
-  position: fixed;
+.foto-perfil {
+  width: 100px;
+  height: 100px;
+  border: 3px solid var(--border-color);
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+}
+
+.edit-icon {
+  position: absolute;
   bottom: 0;
   right: 0;
-  background: var(--header-bg);
-  color: var(--text-color);
+  background: white;
+  color: #007bff;
   border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  font-size: 18px;
+  padding: 5px;
   box-shadow: 0px 2px 5px var(--shadow-light);
 }
 
-/* Lista */
 ion-list {
   background-color: var(--list-bg);
   border-radius: 10px;
   padding: 10px;
+  width: 100%;
 }
 
 ion-item {
   --background: transparent;
-  --border-color: var(--border-color);
   padding: 12px;
   border-bottom: 1px solid var(--border-color);
 }
@@ -226,29 +228,57 @@ ion-item:last-child {
   border-bottom: none;
 }
 
-/* Texto */
-.label {
-  font-size: 14px;
-  color: gray;
-  margin-bottom: 5px;
+h3, ion-input {
+  margin: 5px 0 0;
+  font-size: 16px;
+}
+
+ion-input {
+  font-size: 18px; /* Tamaño de la fuente */
+  height: 40px; /* Ajuste de altura */
+  width: 100%; /* Asegura que los inputs ocupen todo el espacio disponible */
+  max-width: 100%; /* Ajusta el ancho al máximo disponible */
 }
 
 h3 {
+  display: inline-block;
+}
+
+.profile-financial-stats {
+  display: flex;
+  justify-content: space-around;
+  padding: 15px 0;
+  width: 100%;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  margin-top: 15px;
+}
+
+.stat h4 {
   margin: 0;
-  font-size: 18px;
-  font-weight: normal;
-  color: var(--text-color);
+  font-size: 16px;
+  color: #1e3a8a;
+  text-align: center;
 }
 
-/* Botón general */
-ion-button {
-  --background: #0056b3 !important;
-  --color: white !important;
-  --border-radius: 8px;
-  --border: 1px solid #003f7f;
-  font-weight: bold;
-  text-transform: uppercase;
+.stat p {
+  margin: 0;
+  font-size: 13px;
+  color: gray;
+  text-align: center;
 }
 
-
+.edit-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #007bff;
+  color: white;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 22px;
+  box-shadow: 0px 2px 10px var(--shadow-light);
+  z-index: 10;
+}
 </style>
