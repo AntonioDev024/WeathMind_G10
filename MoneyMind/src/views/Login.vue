@@ -1,3 +1,4 @@
+<!-- src/views/UserLogin.vue -->
 <template>
   <ion-page>
     <ion-content class="ion-padding">
@@ -7,7 +8,7 @@
           {{ isLogin ? 'Hi, Welcome Back! 👋' : 'Create a new account 🎉' }}
         </p>
 
-      
+        <ion-list>
           <div v-if="!isLogin" class="input-group">
             <label class="input-label">Full Name</label>
             <ion-item class="input-field" lines="none">
@@ -41,7 +42,7 @@
                 placeholder="Confirm your password" required />
             </ion-item>
           </div>
-  
+        </ion-list>
 
         <div v-if="isLogin" class="d-flex justify-content-between align-items-center mb-3">
           <div class="form-check">
@@ -68,11 +69,10 @@
   </ion-page>
 </template>
 
-<script setup >
-
+<script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { IonPage, IonContent, IonItem, IonInput, IonButton, IonIcon } from '@ionic/vue';
+import { IonPage, IonContent, IonList, IonItem, IonInput, IonButton, IonIcon } from '@ionic/vue';
 import { eye, eyeOff } from 'ionicons/icons';
 import { jwtDecode } from 'jwt-decode';
 
@@ -83,6 +83,7 @@ const email = ref('');
 const password = ref('');
 const confirmPassword = ref('');
 const showPassword = ref(false);
+
 const showOtpInput = ref(false);
 const rememberMe = ref(false);
 
@@ -234,13 +235,20 @@ const signUp = async () => {
 
 <style>
 :root {
-  --background-color: #f0f0f0;
-  --text-color: #333;
-  --form-bg: #fff;
-  --input-bg: #eaeaea;
-  --input-border: #ccc;
-  --button-bg: #007bff;
+  --background-color: #f8f9fa;
+  /* Fondo general claro */
+  --form-bg: #ffffff;
+  /* Fondo del formulario */
+  --text-color: #212529;
+  /* Negro suave */
+  --input-bg: #f1f3f4;
+  /* Fondo de los inputs */
+  --input-border: #ced4da;
+  /* Borde gris claro */
+  --button-bg: #033974;
+  /* Azul botón */
   --button-hover: #0056b3;
+  /* Azul más oscuro */
   --shadow-light: rgba(0, 0, 0, 0.1);
 }
 
@@ -296,16 +304,8 @@ label {
   color: var(--text-color);
 }
 
-ion-list {
-  --background: #ffffff !important;
-  --color: #000000 !important;
-}
-
-
-/* Iconos */
-
 /* Inputs */
-ion-item {
+.input-field {
   width: 100%;
   padding: 12px;
   border: none;
@@ -356,5 +356,8 @@ ion-item {
   text-decoration: underline;
   color: var(--button-hover);
 }
+
+
+
 
 </style>
