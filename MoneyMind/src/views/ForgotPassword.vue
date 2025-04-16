@@ -13,23 +13,22 @@
       <div class="d-flex justify-content-center align-items-center vh-100 centered">
         <ion-card class="p-4 shadow-lg">
           <ion-card-header class="text-center">
-            <ion-card-title class="fs-4 font-bold">Reset Your Password</ion-card-title>
+            <ion-card-title class="fs-4 font-bold"> <h2>Reset Your Password </h2></ion-card-title>
             <p>Enter your email to receive a password reset link.</p>
           </ion-card-header>
           <ion-card-content>
             <form @submit.prevent="sendResetLink">
               <!-- Email -->
-              <ion-item>
+              <ion-item lines="none">
                 <div class="label-container">
-                  <ion-label position="floating">Email</ion-label>
-                </div>
+                                 
                 <ion-input
                   v-model.trim="email"
                   type="email"
                   required
                   placeholder="Enter your email"
                   @ionInput="email = $event.target.value"
-                ></ion-input>
+                ></ion-input></div>
               </ion-item>
 
               <p v-if="errorMessage" class="text-danger text-center">{{ errorMessage }}</p>
@@ -104,93 +103,75 @@ const sendResetLink = async () => {
 
 <style scoped>
 :root {
-  --background-color: #f8f9fa;
+  --background-color: #f0f4f8;
   --form-bg: #ffffff;
-  --text-color: #212529;
-  --input-bg: #f1f3f4;
-  --input-border: #ced4da;
-  --button-bg: #0056b3;
-  --button-hover: #003f7f;
-  --shadow-light: rgba(0, 0, 0, 0.2);
+  --text-color: #1f2937;
+  --input-bg: #f9fafb;
+  --input-border: #d1d5db;
+  --button-bg: #003366;
+  --button-hover: #002244;
+  --shadow-light: rgba(0, 0, 0, 0.1);
 }
 
 .dark {
-  --background-color: #121212;
-  --form-bg: #1e1e1e;
-  --text-color: #ffffff;
-  --input-bg: #333;
-  --input-border: #444;
-  --button-bg: #0a84ff;
-  --button-hover: #0056b3;
-  --shadow-light: rgba(255, 255, 255, 0.1);
+  --background-color: #111827;
+  --form-bg: #1f2937;
+  --text-color: #f3f4f6;
+  --input-bg: #374151;
+  --input-border: #4b5563;
+  --button-bg: #2563eb;
+  --button-hover: #1d4ed8;
+  --shadow-light: rgba(255, 255, 255, 0.05);
 }
 
-/* Header con botón */
-.header-btn {
-  background: #f9fafb;
-  padding: 10px 20px;
-  position: relative;
-  right: 10px;
-}
-
-.header {
-  text-align: center;
-  padding: 30px;
-  background: #f9fafb;
-}
-
-.text-content h2 {
-  color: #1f2937;
-  margin: 0;
-}
-
-.text-content p {
-  color: #9ca3af;
-  margin-top: 5px;
-  font-size: 14px;
-}
-
-.text-content h1 {
-  color: #1e3a8a;
-  font-size: 16px;
-  font-weight: bold;
-  margin: 10px 0 0;
-}
-
-/* Contenedor principal */
-.container {
-  display: flex;
-  flex-direction: column;
-  max-width: 380px;
-  width: 90%;
-  padding: 20px;
-  background: var(--form-bg);
-  border-radius: 10px;
-  box-shadow: 0px 4px 10px var(--shadow-light);
-  text-align: center;
-  gap: 15px;
-  color: var(--text-color);
-}
-
-/* Fondo general */
+/* Fondo principal */
 ion-content {
   background-color: var(--background-color);
-  color: var(--text-color);
   display: flex;
   justify-content: center;
-  align-items: flex-start;
-  padding-top: 60px;
+  align-items: center;
+  padding: 40px 20px;
   height: 100vh;
+}
+
+/* Contenedor */
+.container {
+  background: var(--form-bg);
+  max-width: 360px;
+  width: 100%;
+  padding: 30px 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px var(--shadow-light);
+  text-align: center;
+  color: var(--text-color);
+}
+
+/* Header */
+.header {
+  margin-bottom: 10px;
+}
+
+.h2 {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 0;
+  color: var(--text-color);
+}
+
+.header p {
+  font-size: 14px;
+  color: #6b7280;
+  margin: 10px 0 20px;
 }
 
 /* Inputs */
 ion-item {
   background-color: var(--input-bg);
-  border-radius: 8px;
-  margin-bottom: 16px;
+  border-radius: 10px;
   --padding-start: 14px;
   --padding-end: 14px;
   border: 1px solid var(--input-border);
+  margin-bottom: 20px;
 }
 
 ion-input {
@@ -198,42 +179,54 @@ ion-input {
   --color: var(--text-color);
 }
 
-/* Etiquetas (si las usas manualmente) */
-ion-label {
-  display: block;
-  margin-bottom: 5px;
-}
-
 .label-container {
+  text-align: left;
   width: 100%;
-  margin-bottom: 5px;
-}
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-color);
+  margin-top: 10px;
+  }
 
 /* Botón */
 ion-button {
-  --background: var(--button-bg) !important;
-  --color: white !important;
+  --background: var(--button-bg);
+  --color: white;
   --border-radius: 8px;
-  --border: 1px solid var(--button-hover);
   font-weight: bold;
   text-transform: uppercase;
 }
 
-/* Modo oscuro */
-.dark ion-page {
-  background-color: #2c2c2c !important;
+ion-button:hover {
+  --background: var(--button-hover) !important;
 }
 
-.dark ion-content {
-  background-color: #121212 !important;
+/* Modo oscuro compatibilidad extra */
+.dark ion-page {
+  background-color: var(--background-color);
+}
+
+.dark ion-content,
+.dark .container {
+  background-color: var(--form-bg);
 }
 
 .dark ion-item {
-  --background: #2c2c2c !important;
-  --border-color: #444 !important;
+  --background: var(--input-bg);
+  border: 1px solid var(--input-border);
 }
 
 .dark ion-input {
-  --color: #ffffff !important;
+  --color: var(--text-color);
 }
+
+.text-center {
+  text-align: center;
+}
+
+.fs-4 font-bold {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
 </style>

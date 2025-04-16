@@ -23,6 +23,7 @@
         </ion-button>
       </div>
 
+
       <!-- Saldo Total -->
       <div class="balance-container">
         <p class="balance-label">Your Balance</p>
@@ -33,14 +34,15 @@
       <div v-if="filteredProducts.length" class="linked-products-carousel">
         <h4 class="linked-products-title">Productos Vinculados</h4>
         <Swiper
-          :slides-per-view="1.2"
-          :space-between="16"
-          :centered-slides="true"
-          :loop="true"
-          :pagination="{ clickable: true }"
-          grab-cursor
-          class="my-swiper"
-        >
+  :slides-per-view="1.2"
+  :space-between="16"
+  :centered-slides="true"
+  :loop="filteredProducts.length > 1"
+  :pagination="filteredProducts.length > 1 ? { clickable: true } : false"
+  grab-cursor
+  class="my-swiper"
+>
+
           <SwiperSlide v-for="product in filteredProducts" :key="product.id">
             <div class="linked-product-card">
               <p class="card-label">{{ product.name }}</p>
@@ -74,6 +76,15 @@
           </SwiperSlide>
         </Swiper>
       </div>
+
+      <!-- Si no hay productos -->
+<div v-else class="no-transactions">
+  <img
+    src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png"
+    alt="No hay productos"
+    class="empty-img"/>
+  <p>No tienes productos vinculados aún.</p>
+</div>
              
         <!-- Últimos movimientos -->
       <div class="movements">
@@ -94,7 +105,21 @@
           <p class="see-more" @click="goToMyCards">See more &gt;&gt;</p>
         </div>
       </div>
+      <div class="movement-scroll" v-if="transactions.length">
+  <div class="movement-item" v-for="(item, index) in transactions.slice(0, 5)" :key="index">
+    ...
+  </div>
+</div>
 
+<div v-else class="no-transactions">
+  <img
+    src="https://cdn-icons-png.flaticon.com/512/4076/4076549.png"
+    alt="No transacciones"
+    class="empty-img"/>
+  <p>No se encontraron transacciones en este período.</p>
+</div>
+
+    
       
       <!-- Modal Formulario -->
       <ion-modal :is-open="showForm" @didDismiss="showForm = false">
@@ -188,6 +213,7 @@
   </ion-content>
 </ion-modal>
 
+
       <!-- Toast -->
       <ion-toast
         :is-open="toastVisible"
@@ -196,6 +222,8 @@
         @didDismiss="toastVisible = false"
       />
     </div>
+
+    
   </IonPage>
 </template>
 
@@ -827,4 +855,16 @@ const eliminarProducto = async (id) => {
   justify-items: center;
 } 
 
+.no-transactions {
+  text-align: center;
+  padding: 20px;
+  color: #6b7280;
+}
+
+.empty-img {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 10px;
+  opacity: 0.6;
+}
 </style>

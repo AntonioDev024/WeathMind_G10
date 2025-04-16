@@ -1,78 +1,71 @@
 <template>
-    <div class="header">
-      <router-link to="/tabs/homepage" class="previous round">&#8249;</router-link>
-        <div class="text-content">
-            <h2>Forgot Passoword</h2>
-            <p>Update your password</p>
-            <h1>MoneyMind</h1>
-        </div>
+  <div class="header">
+    <router-link to="/tabs/homepage" class="previous round">&#8249;</router-link>
+    <div class="text-content">
+      <h2>Forgot Password</h2>
+      <p>Update your password</p>
+      <h1>MoneyMind</h1>
     </div>
+  </div>
 </template>
 
 <script setup>
-
 import { RouterLink } from 'vue-router';
-
 </script>
 
-
 <style scoped>
-
 .header {
-    text-align: center;
-    padding: 30px;
-    background: #f9fafb
-   }
+  text-align: center;
+  padding: 30px 20px 5px;
+  background-color: #f9fafb;
+  position: relative;
+}
 
 .text-content h2 {
-    color: #1f2937;
-    font-weight: semibold;
-    margin: 0;
+  color: #1f2937;
+  font-weight: 600;
+  font-size: 22px;
+  margin: 0;
 }
 
 .text-content p {
-    color: #9ca3af;
-    margin: 0;
-    font-size: 14px;
-    margin-top: 5px;
+  color: #6b7280;
+  margin-top: 6px;
+  font-size: 14px;
 }
 
 .text-content h1 {
-    color: #1e3a8a;
-    font-size: 16px;
-    font-weight: bold; 
-    margin: 10px 0 0;
+  color: #1e3a8a;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 12px;
 }
 
+/* Botón de regresar */
 a {
-   text-decoration: none;
+  text-decoration: none;
   display: inline-block;
-  padding: 16px 24px;
-}
-
-a:hover {
-  background-color: #ffffff;
-  color: black;
 }
 
 .previous {
   background-color: #ffffff;
   color: #1783ff;
-  size: 20px;
-  border: 0.5px solid #1783ff;
+  border: 1px solid #1783ff;
+  font-size: 18px;
   position: absolute;
-  top: 35px; /* Ajusta la distancia desde la parte superior */
-  left: 25px; /* Ajusta la distancia desde la parte izquierda */
-  padding: 10px 18px; /* Puedes ajustar el tamaño del botón si lo deseas */
+  top: 20px;
+  left: 20px;
+  padding: 10px 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
-.next {
-  background-color: #04AA6D;
-  color: white;
+.previous:hover {
+  background-color: #1783ff;
+  color: #ffffff;
 }
 
 .round {
   border-radius: 50%;
 }
 </style>
-
